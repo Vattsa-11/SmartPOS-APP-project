@@ -36,20 +36,27 @@ if not exist "%FRONTEND_PATH%" (
 )
 
 echo [1/2] Starting FastAPI backend server...
-start "SmartPOS Backend" cmd.exe /k "cd /d %BACKEND_PATH% && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+echo Starting simplified API on port 8001...
+start "SmartPOS Backend" cmd.exe /k "cd /d %BACKEND_PATH% && python simple_api.py"
 
 :: Wait for backend to start
 echo Waiting for backend server to start...
-timeout /t 5 /nobreak > nul
+timeout /t 8 /nobreak > nul
 
 echo [2/2] Starting Flutter frontend...
-start "SmartPOS Frontend" cmd.exe /k "cd /d %FRONTEND_PATH% && flutter run -d chrome --web-hostname=localhost --web-port=5001"
+echo Installing Flutter dependencies...
+cd /d %FRONTEND_PATH%
+flutter pub get > nul 2>&1
+
+echo Starting Flutter web application...
+start "SmartPOS Frontend" cmd.exe /k "cd /d %FRONTEND_PATH% && flutter run -d chrome --web-hostname=127.0.0.1 --web-port=5001"
 
 echo.
 echo SmartPOS is now running!
 echo.
-echo Backend server: http://localhost:8000
-echo Frontend server: http://localhost:5001
+echo Backend API: http://127.0.0.1:8001
+echo API Documentation: http://127.0.0.1:8001/docs
+echo Frontend App: http://127.0.0.1:5001
 echo.
 echo Close this window when you're done to stop both servers.
 echo.

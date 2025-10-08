@@ -57,21 +57,29 @@ function Start-ProcessInNewWindow {
 
 # Start backend server
 Write-Host "[1/2] Starting FastAPI backend server..." -ForegroundColor Yellow
-Start-ProcessInNewWindow -Title "SmartPOS Backend" -WorkingDirectory $backendPath -Command "powershell" -Arguments "-Command `"& {cd '$backendPath'; python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000; Read-Host}`""
+Write-Host "Starting simplified API on port 8001..." -ForegroundColor Cyan
+Start-ProcessInNewWindow -Title "SmartPOS Backend" -WorkingDirectory $backendPath -Command "powershell" -Arguments "-Command `"& {cd '$backendPath'; python simple_api.py; Read-Host 'Press Enter to close this window'}`""
 
 # Wait for backend to start
 Write-Host "Waiting for backend server to start..." -ForegroundColor Yellow
-Start-Sleep -Seconds 5
+Start-Sleep -Seconds 8
+
+# Install Flutter dependencies
+Write-Host "Installing Flutter dependencies..." -ForegroundColor Yellow
+Set-Location $frontendPath
+flutter pub get | Out-Null
 
 # Start frontend server
 Write-Host "[2/2] Starting Flutter frontend..." -ForegroundColor Yellow
-Start-ProcessInNewWindow -Title "SmartPOS Frontend" -WorkingDirectory $frontendPath -Command "powershell" -Arguments "-Command `"& {cd '$frontendPath'; flutter run -d chrome --web-hostname=localhost --web-port=5001; Read-Host}`""
+Write-Host "Starting Flutter web application..." -ForegroundColor Cyan
+Start-ProcessInNewWindow -Title "SmartPOS Frontend" -WorkingDirectory $frontendPath -Command "powershell" -Arguments "-Command `"& {cd '$frontendPath'; flutter run -d chrome --web-hostname=127.0.0.1 --web-port=5001; Read-Host 'Press Enter to close this window'}`""
 
 Write-Host ""
 Write-Host "SmartPOS is now running!" -ForegroundColor Green
 Write-Host ""
-Write-Host "Backend server: http://localhost:8000" -ForegroundColor Cyan
-Write-Host "Frontend server: http://localhost:5001" -ForegroundColor Cyan
+Write-Host "Backend API: http://127.0.0.1:8001" -ForegroundColor Cyan
+Write-Host "API Documentation: http://127.0.0.1:8001/docs" -ForegroundColor Cyan
+Write-Host "Frontend App: http://127.0.0.1:5001" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Close this window when you're done to stop both servers." -ForegroundColor Yellow
 Write-Host ""
