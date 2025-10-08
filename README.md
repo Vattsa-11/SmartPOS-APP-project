@@ -4,13 +4,13 @@ A complete POS (Point of Sale) system with mobile and web support built with Flu
 
 ## Current Features
 
-### ✅ User Management
+###  User Management
 - **Authentication System**: JWT-based authentication with secure token handling
 - **Multi-User Support**: Each user has their own isolated database and product catalog
 - **Registration & Login**: Complete user registration and login flow
 - **Profile Management**: User profile management with shop details
 
-### ✅ Product Management
+###  Product Management
 - **Complete CRUD Operations**: Create, Read, Update, Delete products
 - **Rich Product Data**: Name, barcode, pricing (cost, selling, discount), inventory levels
 - **Inventory Tracking**: Real-time stock monitoring with minimum/maximum levels
@@ -18,26 +18,26 @@ A complete POS (Point of Sale) system with mobile and web support built with Flu
 - **Featured Products**: Mark products as featured for quick access
 - **Tax & Discount Management**: Built-in tax and discount percentage calculations
 
-### ✅ Inventory System
+###  Inventory System
 - **Stock Management**: Track current stock, minimum stock levels, and maximum capacity
 - **Low Stock Alerts**: Automatic alerts when products fall below minimum stock
 - **Inventory Adjustments**: Track inventory changes with reason codes
 - **Stock History**: Complete audit trail of inventory movements
 
-### ✅ Sales & Transactions
+###  Sales & Transactions
 - **Point of Sale**: Complete sales transaction processing
 - **Multiple Payment Methods**: Cash, Card, UPI, Credit, Bank Transfer
 - **Invoice Generation**: Automatic invoice number generation
 - **Receipt Management**: Digital receipts with complete transaction details
 - **Payment Tracking**: Track partial payments and change calculations
 
-### ✅ Dashboard & Analytics
+###  Dashboard & Analytics
 - **Real-time Statistics**: Today's sales, monthly sales, customer count
 - **Product Analytics**: Track top-selling products and performance
 - **Inventory Alerts**: Dashboard alerts for low stock items
 - **Recent Transactions**: Quick view of recent sales
 
-### ✅ Web & Mobile Support
+###  Web & Mobile Support
 - **Flutter Web**: Responsive web application for desktop use
 - **Mobile Ready**: Native mobile app experience
 - **Cross-Platform**: Single codebase for web, Android, and iOS
