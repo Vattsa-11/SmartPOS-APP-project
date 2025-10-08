@@ -16,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _shopNameController = TextEditingController();
   final _ownerNameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _pinController = TextEditingController();
   bool _obscurePin = true;
@@ -25,6 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void dispose() {
     _shopNameController.dispose();
     _ownerNameController.dispose();
+    _emailController.dispose();
     _phoneController.dispose();
     _pinController.dispose();
     super.dispose();
@@ -48,10 +50,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
       final user = User(
-        username: _ownerNameController.text,
+        id: '',
+        email: _emailController.text,
         phone: _phoneController.text,
-        shopName: _shopNameController.text,
-        languagePreference: _selectedLanguage,
+        ownerName: _ownerNameController.text,
       );
 
       try {
@@ -183,7 +185,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _ownerNameController,
                     decoration: InputDecoration(
                       labelText: 'Owner Name',
-                      hintText: 'Enter your name',
+                      hintText: 'Enter name (letters and numbers only)',
                       prefixIcon: const Icon(Icons.person),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -192,6 +194,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Owner name is required';
+                      }
+                      if (value.length < 3) {
+                        return 'Name must be at least 3 characters';
+                      }
+                      if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
+                        return 'Name can only contain letters and numbers';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Email field
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      hintText: 'Enter your email address',
+                      prefixIcon: const Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Email is required';
+                      }
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(value)) {
+                        return 'Please enter a valid email address';
                       }
                       return null;
                     },
@@ -210,21 +242,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Phone number is required';
+                      }
+                      if (value.length != 10) {
+                        return 'Phone number must be exactly 10 digits';
+                      }
+                      if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+                        return 'Please enter only digits';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
 
-                  // PIN field
+                  // Password field
                   TextFormField(
                     controller: _pinController,
                     decoration: InputDecoration(
-                      labelText: 'PIN',
-                      hintText: 'Enter your PIN',
+                      labelText: 'Password',
+                      hintText: 'Enter your password (min. 6 characters)',
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -237,18 +279,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     obscureText: _obscurePin,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(4),
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
+                    keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'PIN is required';
+                        return 'Password is required';
                       }
-                      if (value.length != 4) {
-                        return 'PIN must be 4 digits';
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
                       }
+                      // Add more password requirements if needed
                       return null;
                     },
                   ),

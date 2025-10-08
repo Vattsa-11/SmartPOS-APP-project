@@ -14,21 +14,21 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _phoneController = TextEditingController();
-  final _pinController = TextEditingController();
-  bool _obscurePin = true;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _obscurePassword = true;
   String _selectedLanguage = 'en';
 
   @override
   void dispose() {
-    _phoneController.dispose();
-    _pinController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
-  void _togglePinVisibility() {
+  void _togglePasswordVisibility() {
     setState(() {
-      _obscurePin = !_obscurePin;
+      _obscurePassword = !_obscurePassword;
     });
   }
 
@@ -36,11 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _selectedLanguage = languageCode;
     });
-    Locale newLocale = Locale(languageCode);
-    // This is a simple approach. In a production app, you might want to use
-    // the Locale.fromSubtags constructor and handle scripts and countries.
-    Provider.of<AuthProvider>(context, listen: false)
-        .updateLanguagePreference(languageCode);
   }
 
   Future<void> _login() async {
@@ -66,8 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
         );
         
         final success = await authProvider.login(
-          _phoneController.text,
-          _pinController.text,
+          _emailController.text,
+          _passwordController.text,
         );
 
         // Close loading dialog
@@ -131,56 +126,54 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 32),
                   
-                  // Phone number field
+                  // Email field
                   TextFormField(
-                    controller: _phoneController,
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      labelText: 'Phone Number',
-                      hintText: 'Enter your phone number',
-                      prefixIcon: const Icon(Icons.phone),
+                      labelText: 'Email',
+                      hintText: 'Enter your email address',
+                      prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Phone number is required';
+                        return 'Email is required';
+                      }
+                      if (!value.contains('@')) {
+                        return 'Please enter a valid email address';
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 16),
                   
-                  // PIN field
+                  // Password field
                   TextFormField(
-                    controller: _pinController,
+                    controller: _passwordController,
                     decoration: InputDecoration(
-                      labelText: 'PIN',
-                      hintText: 'Enter your PIN',
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _obscurePin ? Icons.visibility : Icons.visibility_off,
+                          _obscurePassword ? Icons.visibility : Icons.visibility_off,
                         ),
-                        onPressed: _togglePinVisibility,
+                        onPressed: _togglePasswordVisibility,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    obscureText: _obscurePin,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(4),
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
+                    obscureText: _obscurePassword,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'PIN is required';
+                        return 'Password is required';
                       }
-                      if (value.length != 4) {
-                        return 'PIN must be 4 digits';
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
                       }
                       return null;
                     },
@@ -240,6 +233,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text('Register'),
                   ),
+                  
+                  // Debug info
+                  if (authProvider.isAuthenticated && authProvider.currentUser == null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text(
+                        'Profile loading...',
+                        style: TextStyle(color: Colors.orange),
+                      ),
+                    ),
                 ],
               ),
             ),

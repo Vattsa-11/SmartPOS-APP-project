@@ -1,113 +1,230 @@
 # SmartPOS - Point of Sale System
 
-A complete POS (Point of Sale) system with mobile and web support built with Flutter frontend and FastAPI backend.
+A complete POS (Point of Sale) system with mobile and web support built with Flutter frontend and FastAPI backend. This application provides comprehensive product management, inventory tracking, and user-specific data isolation for retail businesses.
 
-## Project Structure
+## Current Features
 
-### Backend (FastAPI)
+### ✅ User Management
+- **Authentication System**: JWT-based authentication with secure token handling
+- **Multi-User Support**: Each user has their own isolated database and product catalog
+- **Registration & Login**: Complete user registration and login flow
+- **Profile Management**: User profile management with shop details
 
-```
-smartpos/backend/
-├── main.py (FastAPI app)
-├── models.py (SQLAlchemy models)  
-├── database.py (DB connection)
-├── schemas.py (Pydantic schemas)
-├── auth.py (authentication utilities)
-└── requirements.txt
-```
+### ✅ Product Management
+- **Complete CRUD Operations**: Create, Read, Update, Delete products
+- **Rich Product Data**: Name, barcode, pricing (cost, selling, discount), inventory levels
+- **Inventory Tracking**: Real-time stock monitoring with minimum/maximum levels
+- **Product Categories**: Organize products by categories
+- **Featured Products**: Mark products as featured for quick access
+- **Tax & Discount Management**: Built-in tax and discount percentage calculations
+
+### ✅ Inventory System
+- **Stock Management**: Track current stock, minimum stock levels, and maximum capacity
+- **Low Stock Alerts**: Automatic alerts when products fall below minimum stock
+- **Inventory Adjustments**: Track inventory changes with reason codes
+- **Stock History**: Complete audit trail of inventory movements
+
+### ✅ Sales & Transactions
+- **Point of Sale**: Complete sales transaction processing
+- **Multiple Payment Methods**: Cash, Card, UPI, Credit, Bank Transfer
+- **Invoice Generation**: Automatic invoice number generation
+- **Receipt Management**: Digital receipts with complete transaction details
+- **Payment Tracking**: Track partial payments and change calculations
+
+### ✅ Dashboard & Analytics
+- **Real-time Statistics**: Today's sales, monthly sales, customer count
+- **Product Analytics**: Track top-selling products and performance
+- **Inventory Alerts**: Dashboard alerts for low stock items
+- **Recent Transactions**: Quick view of recent sales
+
+### ✅ Web & Mobile Support
+- **Flutter Web**: Responsive web application for desktop use
+- **Mobile Ready**: Native mobile app experience
+- **Cross-Platform**: Single codebase for web, Android, and iOS
+- **Material Design**: Modern, intuitive user interface
+
+## Technical Architecture
+
+### Backend (FastAPI + SQLAlchemy)
+- **FastAPI Framework**: High-performance, modern Python web framework
+- **SQLite Database**: Lightweight, serverless database for each user
+- **SQLAlchemy ORM**: Robust database modeling and relationships
+- **Pydantic Schemas**: Type-safe API request/response validation
+- **JWT Authentication**: Secure token-based authentication
+- **CORS Enabled**: Cross-origin resource sharing for web deployment
 
 ### Frontend (Flutter)
+- **Flutter Framework**: Google's UI toolkit for cross-platform development
+- **Provider State Management**: Reactive state management for UI updates
+- **HTTP Client**: RESTful API communication with backend
+- **Material Design**: Google's design system implementation
+- **Responsive Layout**: Adaptive UI for different screen sizes
+- **Internationalization**: Multi-language support (English, Hindi)
 
-```
-smartpos/frontend/
-├── lib/
-│   ├── main.dart
-│   ├── models/
-│   │   ├── user.dart
-│   │   └── product.dart
-│   ├── services/
-│   │   └── api_service.dart
-│   ├── providers/
-│   │   └── auth_provider.dart
-│   ├── screens/
-│   │   ├── login_screen.dart
-│   │   ├── register_screen.dart
-│   │   └── dashboard_screen.dart
-│   └── l10n/
-│       ├── app_en.arb
-│       └── app_hi.arb
-└── pubspec.yaml
-```
+## Database Schema
+
+### Users Table
+- User authentication and profile information
+- Shop details and contact information
+- Supabase integration for external auth
+
+### Products Table
+- Complete product information with pricing
+- User-specific product catalogs
+- Category relationships and featured status
+
+### Inventory Table
+- Real-time stock levels
+- Minimum/maximum stock thresholds
+- Product relationship mapping
+
+### Sales & Transactions
+- Complete sales records with line items
+- Payment method and status tracking
+- Customer information and receipt data
 
 ## Getting Started
 
-### Setting up the Backend
+### Prerequisites
+- Python 3.8+ with pip
+- Flutter SDK 3.0+
+- Git for version control
 
-1. Create a Python virtual environment and install dependencies:
+### Backend Setup
+
+1. **Navigate to backend directory:**
 ```bash
 cd smartpos/backend
+```
+
+2. **Create virtual environment:**
+```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Windows
+venv\Scripts\activate
+# Linux/Mac
+source venv/bin/activate
+```
+
+3. **Install dependencies:**
+```bash
 pip install -r requirements.txt
 ```
 
-2. Run the FastAPI server:
+4. **Start the development server:**
 ```bash
-uvicorn main:app --reload
+# Main API (port 8000)
+python main.py
+
+# Or simplified API (port 8001)
+python simple_api.py
 ```
 
-3. The server will be available at http://127.0.0.1:8000 and the API documentation at http://127.0.0.1:8000/docs
+5. **Access API documentation:**
+- Main API: http://127.0.0.1:8000/docs
+- Simple API: http://127.0.0.1:8001/docs
 
-### Setting up the Frontend
+### Frontend Setup
 
-1. Make sure you have Flutter installed (https://flutter.dev/docs/get-started/install)
-
-2. Install dependencies:
+1. **Navigate to frontend directory:**
 ```bash
 cd smartpos/frontend
+```
+
+2. **Install Flutter dependencies:**
+```bash
 flutter pub get
 ```
 
-3. Make sure the API URL in `lib/services/api_service.dart` points to your backend server
-
-4. Run the app:
+3. **Run the application:**
 ```bash
-# For Web
+# Web development
 flutter run -d chrome
 
-# For Android
+# Android device/emulator
 flutter run -d android
+
+# iOS device/simulator (Mac only)
+flutter run -d ios
 ```
-
-## Features
-
-- User authentication with JWT tokens
-- Multi-language support (English and Hindi)
-- Product management
-- Inventory tracking
-- Responsive design for mobile and web
-- PIN-based security
-- Material Design UI
 
 ## API Endpoints
 
-- `POST /auth/login` - User login
-- `POST /auth/register` - User registration
-- `GET /user/profile` - Get current user profile
-- `POST /products` - Add a product
-- `GET /products` - List all products
-- `PUT /products/{id}` - Update a product
-- `DELETE /products/{id}` - Delete a product
-- `GET /inventory` - Get inventory items
+### Authentication
+- `POST /api/login` - User login with email/password
+- `POST /api/register` - User registration
 
-## Screenshots
+### Product Management
+- `GET /api/products` - List all products for authenticated user
+- `POST /api/products` - Create new product
+- `PUT /api/products/{id}` - Update existing product
+- `DELETE /api/products/{id}` - Delete product (soft delete)
 
-[Add screenshots here]
+### Inventory Management
+- `GET /api/inventory` - Get inventory levels for all products
+- `PUT /api/inventory/{product_id}` - Update inventory levels
 
-## Future Enhancements
+### Sales & Transactions
+- `POST /sales` - Create new sale transaction
+- `GET /sales` - List sales with filtering options
+- `GET /sales/{id}` - Get specific sale details
 
-- Barcode scanning functionality
-- Offline support
-- Receipt printing
-- Sales reports and analytics
-- Customer loyalty program
+### Dashboard
+- `GET /dashboard` - Get dashboard statistics and analytics
+
+## User Guide
+
+### First Time Setup
+1. **Register**: Create your account with email and shop details
+2. **Login**: Access your personal dashboard
+3. **Add Products**: Start building your product catalog
+4. **Set Inventory**: Configure stock levels and alerts
+5. **Start Selling**: Process sales transactions
+
+### Daily Operations
+1. **Check Dashboard**: Review daily sales and alerts
+2. **Manage Inventory**: Update stock levels as needed
+3. **Process Sales**: Handle customer transactions
+4. **Monitor Alerts**: Address low stock warnings
+
+## Development Notes
+
+### Current Architecture Decisions
+- **User Isolation**: Each user operates with their own data scope
+- **Simple Authentication**: Development-friendly auth flow
+- **Flexible API**: Both full-featured and simplified API endpoints
+- **Database Per User**: SQLite provides user-specific data isolation
+
+### Known Limitations
+- Single-tenant architecture (not multi-tenant database)
+- Development-mode authentication (simplified for testing)
+- Basic receipt system (no printing integration yet)
+
+## Future Roadmap
+
+### Planned Features
+- **Barcode Scanning**: Camera-based barcode recognition
+- **Receipt Printing**: Thermal printer integration
+- **Advanced Analytics**: Sales trends, profit analysis
+- **Customer Management**: Customer database and loyalty
+- **Multi-Store Support**: Chain store management
+- **Offline Capability**: Work without internet connection
+- **Cloud Backup**: Data synchronization and backup
+- **Mobile Payment Integration**: Payment gateway APIs
+
+### Technical Improvements
+- **Multi-tenant Database**: Shared database with tenant isolation
+- **Advanced Authentication**: OAuth2, social login
+- **Caching Layer**: Redis for performance optimization
+- **API Rate Limiting**: Request throttling and quotas
+- **Automated Testing**: Unit and integration test suites
+- **Docker Deployment**: Containerized deployment
+- **Cloud Hosting**: AWS/Azure deployment configurations
+
+## Contributing
+
+This is a private development project. For questions or collaboration, please contact the development team.
+
+## License
+
+Private project - All rights reserved.

@@ -1,66 +1,65 @@
 class User {
-  final int? id;
-  final String username;
+  final String? id;
+  final String email;
+  final String ownerName;
   final String phone;
-  final String shopName;
-  final String languagePreference;
-  final String? createdAt;
+  // Shop info is now separate - these are for compatibility/current selection
+  final String? currentShopId;
+  final String? currentShopName;
 
   User({
     this.id,
-    required this.username,
+    required this.email,
+    required this.ownerName,
     required this.phone,
-    required this.shopName,
-    this.languagePreference = 'en',
-    this.createdAt,
+    this.currentShopId,
+    this.currentShopName,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      username: json['username'],
-      phone: json['phone'],
-      shopName: json['shop_name'],
-      languagePreference: json['language_preference'],
-      createdAt: json['created_at'],
+      id: json['id']?.toString(),
+      email: json['email'] ?? '',
+      ownerName: json['owner_name'] ?? '',
+      phone: json['phone'] ?? '',
+      currentShopId: json['current_shop_id']?.toString(),
+      currentShopName: json['current_shop_name'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'username': username,
+      'email': email,
+      'owner_name': ownerName,
       'phone': phone,
-      'shop_name': shopName,
-      'language_preference': languagePreference,
+      'current_shop_id': currentShopId,
+      'current_shop_name': currentShopName,
     };
   }
 
-  // Additional method for registration that includes password
-  Map<String, dynamic> toRegistrationJson(String password) {
-    return {
-      'username': username,
-      'phone': phone,
-      'shop_name': shopName,
-      'language_preference': languagePreference,
-      'password': password,
-    };
-  }
+  // Backward compatibility - use currentShopName if available
+  String get shopName => currentShopName ?? '';
 
   User copyWith({
-    int? id,
-    String? username,
+    String? id,
+    String? email,
+    String? ownerName,
     String? phone,
-    String? shopName,
-    String? languagePreference,
-    String? createdAt,
+    String? currentShopId,
+    String? currentShopName,
   }) {
     return User(
       id: id ?? this.id,
-      username: username ?? this.username,
+      email: email ?? this.email,
+      ownerName: ownerName ?? this.ownerName,
       phone: phone ?? this.phone,
-      shopName: shopName ?? this.shopName,
-      languagePreference: languagePreference ?? this.languagePreference,
-      createdAt: createdAt ?? this.createdAt,
+      currentShopId: currentShopId ?? this.currentShopId,
+      currentShopName: currentShopName ?? this.currentShopName,
     );
+  }
+
+  @override
+  String toString() {
+    return 'User(id: $id, email: $email, ownerName: $ownerName, currentShop: $currentShopName)';
   }
 }
