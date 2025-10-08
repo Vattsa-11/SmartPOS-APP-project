@@ -85,6 +85,30 @@ A complete POS (Point of Sale) system with mobile and web support built with Flu
 
 ## Getting Started
 
+### 🚀 Quick Start (Windows)
+
+**Option 1: Double-click to run**
+- Double-click `start_smartpos.bat` in the root directory
+
+**Option 2: PowerShell script**
+- Right-click `start_smartpos.ps1` and select "Run with PowerShell"
+
+**Option 3: Command line**
+```bash
+# Using batch file
+start_smartpos.bat
+
+# Using PowerShell
+.\start_smartpos.ps1
+```
+
+This will automatically:
+- ✅ Check if Python and Flutter are installed
+- ✅ Start the backend API on http://127.0.0.1:8001
+- ✅ Install Flutter dependencies
+- ✅ Launch the frontend on http://127.0.0.1:5001
+- ✅ Open your browser automatically
+
 ### Prerequisites
 - Python 3.8+ with pip
 - Flutter SDK 3.0+
