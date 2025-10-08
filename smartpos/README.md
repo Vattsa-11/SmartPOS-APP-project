@@ -87,27 +87,37 @@ A complete POS (Point of Sale) system with mobile and web support built with Flu
 
 ### 🚀 Quick Start (Windows)
 
-**Option 1: Double-click to run**
-- Double-click `start_smartpos.bat` in the root directory
+**Recommended: Use the Enhanced Launchers**
 
-**Option 2: PowerShell script**
-- Right-click `start_smartpos.ps1` and select "Run with PowerShell"
+**Option 1: Enhanced Batch Launcher**
+- Double-click `SmartPOS_Launcher.bat` in the root directory
 
-**Option 3: Command line**
-```bash
-# Using batch file
-start_smartpos.bat
+**Option 2: Enhanced PowerShell Launcher**
+- Right-click `SmartPOS_Launcher.ps1` and select "Run with PowerShell"
 
-# Using PowerShell
-.\start_smartpos.ps1
-```
+**Option 3: Simple Launchers**
+- Double-click `start_smartpos.bat` or run `.\start_smartpos.ps1`
 
-This will automatically:
-- ✅ Check if Python and Flutter are installed
-- ✅ Start the backend API on http://127.0.0.1:8001
-- ✅ Install Flutter dependencies
-- ✅ Launch the frontend on http://127.0.0.1:5001
-- ✅ Open your browser automatically
+**Features of Enhanced Launchers:**
+- ✅ Beautiful console UI with progress indicators
+- ✅ Comprehensive prerequisite checking (Python, Flutter, directories)
+- ✅ Automatic dependency installation (pip install, flutter pub get)
+- ✅ Smart error handling with helpful messages
+- ✅ Start backend API on http://127.0.0.1:8001
+- ✅ Launch frontend on http://127.0.0.1:5001
+- ✅ Auto-open browser to the application
+- ✅ Graceful shutdown when you close the launcher
+- ✅ Process cleanup (kills Python and Flutter processes)
+
+**What happens when you run the launcher:**
+1. 🔍 Checks if Python 3.8+ and Flutter are installed
+2. 📁 Verifies project directories exist
+3. 📦 Installs Python dependencies (requirements.txt)
+4. 📦 Installs Flutter dependencies (pub get)
+5. 🚀 Starts backend server in new terminal window
+6. 🚀 Starts frontend app in new terminal window
+7. 🌐 Opens your browser automatically
+8. ✨ Ready to use SmartPOS!
 
 ### Prerequisites
 - Python 3.8+ with pip
